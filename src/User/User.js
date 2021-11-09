@@ -44,7 +44,7 @@ class Users extends React.Component {
     let userData = this.state.arr;
     return (
       <>
-        <Button onClick={this.handleShow}>Add User</Button>
+        <Button className="my-2" variant="info" onClick={this.handleShow}>Add User</Button>
         {this.state.isOpen ? (
           <ModalForm show={this.state.isOpen} hide={this.handleHide} />
         ) : this.state.isEdit ? (
