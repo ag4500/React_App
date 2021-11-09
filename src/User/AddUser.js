@@ -6,9 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
-import { useHistory } from "react-router";
 const ModalForm = (props) => {
-  let history = useHistory();
   const [state, setState] = useState({
     name: "",
     username: "",

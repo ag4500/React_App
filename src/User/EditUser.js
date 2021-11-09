@@ -5,10 +5,8 @@ import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { Form, FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { useHistory } from "react-router";
 const EditForm = (props) => {
   const getId = props.id;
-  let history = useHistory();
   const [state, setState] = useState({
     name: "",
     username: "",
