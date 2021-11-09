@@ -3,8 +3,6 @@ import Users from './User/User'
 import PostUser from './User/Post';
 import TodoUser from './User/Todo'
 import CommentPost from './User/Comment';
-import AddUser from './User/AddUser';
-import EditUser from './User/EditUser';
 import {LinkContainer} from 'react-router-bootstrap'
 import { Navbar,Nav,Container} from 'react-bootstrap';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -28,7 +26,6 @@ function App() {
               <LinkContainer to ="/posts/:id/comments">
                 <Nav.Link>Comment</Nav.Link>
               </LinkContainer>
-              
             </Nav>
           </Container>
         </Navbar>
@@ -38,8 +35,6 @@ function App() {
       <Route  path="/users/:id/posts" component={PostUser} />
       <Route  path="/users/:id/todos" component={TodoUser} />
       <Route  path="/posts/:id/comments" component={CommentPost} />
-      <Route  path="/users/add" component={AddUser} />
-      <Route  path="/users/edit/:id" component={EditUser} />
       </Switch>
     </Router>
   );
