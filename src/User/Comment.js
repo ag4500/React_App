@@ -1,21 +1,17 @@
 import React from "react";
 import axios from "axios";
-import { connect } from 'react-redux';
-import {comments} from '../actions/index'
+import { connect } from "react-redux";
+import { comments } from "../actions/index";
 import { ListGroup } from "react-bootstrap";
 class CommentPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      Comment: [],
-    };
   }
   CommentData = async (post_id) => {
     const comment = await axios.get(
       `http://localhost:3008/posts/${post_id}/comments`
     );
-    this.props.comments(comment.data)
-
+    this.props.comments(comment.data);
   };
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -43,12 +39,15 @@ class CommentPost extends React.Component {
     );
   }
 }
-const mapDispatchToProps={
-  comments
- }
- const mapStateToProps=(state)=>({
-  my_comment:state.comment
-})
-const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(CommentPost);
+const mapDispatchToProps = {
+  comments,
+};
+const mapStateToProps = (state) => ({
+  my_comment: state.comment,
+});
+const UsersConnectedWithRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentPost);
 
-export default UsersConnectedWithRedux
+export default UsersConnectedWithRedux;

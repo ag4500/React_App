@@ -2,33 +2,37 @@ import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from 'react-redux';
-import {adduser} from '../actions/index'
+import {adduser,hide} from '../actions/index'
 import React from "react";
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
-const ModalForm = (props) => {
+const ModalForm = () => {
   const dispatch = useDispatch();
-  const update_users = useSelector((state) => state.add_data);
-  const { name, username, email, phone } = update_users;
+  const update_users = useSelector((state) => state,
+  );
+  const { name, username, email, phone } = update_users.add_data;
   const OnChange = (e) => {
     const { name, value } = e.target;
-    const updatedTodo = {...update_users,[name]: value };
+    const updatedTodo = {...update_users.add_data,[name]: value };
     dispatch(adduser(updatedTodo))
   };
   const UpdateUser = async (state) => {
     const response = await axios.post("http://localhost:3008/users", {
-      ...update_users,
+      ...update_users.add_data,
     });
     dispatch(adduser(response.data))
   };
   const OnSubmit = async (e) => {
-    UpdateUser(update_users);
+    UpdateUser(update_users.add_data);
+  };
+  const handleHide = () => {
+    dispatch(hide(!update_users.isOpen))
   };
   return (
     <>
       <div className="container p-3 text-center bg-light">
-        <Modal show={props.show} onHide={props.hide}>
+        <Modal show={update_users.isOpen} onHide={handleHide}>
           <Modal.Header closeButton>
             <Modal.Title>Add User</Modal.Title>
           </Modal.Header>

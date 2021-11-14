@@ -2,29 +2,19 @@ import { Button } from "react-bootstrap";
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { users } from "../actions/index";
+import { users, show, edit, edit_hide } from "../actions/index";
 import { Table } from "react-bootstrap";
 import ModalForm from "./AddUser";
 import EditForm from "./EditUser";
 class Users extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-      isEdit: false,
-    };
   }
   handleShow = () => {
-    this.setState({ isOpen: true });
-  };
-  handleHide = () => {
-    this.setState({ isOpen: false });
+    this.props.show(!this.props.isOpen);
   };
   handleEdit = (id) => {
-    this.setState({ isEdit: true, edit_id: id });
-  };
-  handleEdithide = () => {
-    this.setState({ isEdit: false });
+    this.props.edit({ isEdit: true, edit_id: id });
   };
   onData = async () => {
     const api = await axios.get("http://localhost:3008/users");
@@ -46,14 +36,10 @@ class Users extends React.Component {
         <Button className="my-2" variant="info" onClick={this.handleShow}>
           Add User
         </Button>
-        {this.state.isOpen ? (
-          <ModalForm show={this.state.isOpen} hide={this.handleHide} />
-        ) : this.state.isEdit ? (
-          <EditForm
-            show={this.state.isEdit}
-            id={this.state.edit_id}
-            hide={this.handleEdithide}
-          />
+        {this.props.isOpen ? (
+          <ModalForm />
+        ) : this.props.isEdit ? (
+          <EditForm />
         ) : (
           <Table striped bordered hover size="lg">
             <thead>
@@ -102,12 +88,16 @@ class Users extends React.Component {
     );
   }
 }
-//export default Users;
 const mapDispatchToProps = {
   users,
+  show,
+  edit,
+  edit_hide,
 };
 const mapStateToProps = (state) => ({
   my_user: state.arr,
+  isOpen: state.isOpen,
+  isEdit: state.isEdit,
 });
 const UsersConnectedWithRedux = connect(
   mapStateToProps,

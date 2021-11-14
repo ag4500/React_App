@@ -5,6 +5,10 @@ import {
   Todos,
   Edit_Users,
   Comments,
+  Show,
+  Hide,
+  Edit,
+  Edit_Hide,
 } from "../actions";
 const initialState = {
   arr: [],
@@ -17,15 +21,15 @@ const initialState = {
     email: "",
     phone: "",
   },
+  isOpen: false,
+  isEdit: false,
 };
 export default function user_reducer(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case Users:
       return {
         ...state,
         arr: action.payload,
-        
       };
     case Posts:
       return {
@@ -52,6 +56,26 @@ export default function user_reducer(state = initialState, action) {
       return {
         ...state,
         add_data: action.payload,
+      };
+    case Show:
+      return {
+        ...state,
+        isOpen: action.payload,
+      };
+    case Hide:
+      return {
+        ...state,
+        isOpen:action.payload,
+      };
+    case Edit:
+      return {
+        ...state,
+        isEdit: action.payload,
+      };
+    case Edit_Hide:
+      return {
+        ...state,
+        isEdit:action.payload,
       };
       break;
     default:
