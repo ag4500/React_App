@@ -10,7 +10,6 @@ import { FormControl } from "react-bootstrap";
 const ModalForm = (props) => {
   const dispatch = useDispatch();
   const update_users = useSelector((state) => state.add_data);
-  const update = useSelector((state) => state);
   const { name, username, email, phone } = update_users;
   const OnChange = (e) => {
     const { name, value } = e.target;
