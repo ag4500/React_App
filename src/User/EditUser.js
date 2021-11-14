@@ -10,9 +10,7 @@ import { Button } from "react-bootstrap";
 const EditForm = (props) => {
   const dispatch = useDispatch();
   const update_users = useSelector((state) => state);
-  console.log(update_users.isEdit.isEdit)
   const getId = update_users.isEdit.edit_id;
-  console.warn("Get id is ",getId,update_users)
   const { name, username, email, phone } = update_users.add_data;
   const OnChange = (e) => {
     const { name, value } = e.target;
