@@ -1,25 +1,22 @@
 import React from "react";
 import axios from "axios";
+import { connect } from 'react-redux';
+import {todos} from '../actions/index';
 import { ListGroup } from "react-bootstrap";
-export default class TodoUser extends React.Component {
+ class TodoUser extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      Todo: [],
-    };
   }
   TodoData = async (id) => {
     const todo = await axios.get(`http://localhost:3008/users/${id}/todos`);
-    this.setState({
-      Todo: todo.data,
-    });
+    this.props.todos(todo.data)
   };
   componentDidMount() {
     const { id } = this.props.match.params;
     this.TodoData(id);
   }
   render() {
-    const todoData = this.state.Todo;
+    const todoData = this.props.my_todo;
     let todo_Data = todoData.map((data) => {
       return (
         <ul key={data.id}>
@@ -41,3 +38,12 @@ export default class TodoUser extends React.Component {
     );
   }
 }
+const mapDispatchToProps={
+  todos
+ }
+ const mapStateToProps=(state)=>({
+  my_todo:state.todo
+})
+const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(TodoUser);
+
+export default UsersConnectedWithRedux

@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
+import { connect } from 'react-redux';
+import {comments} from '../actions/index'
 import { ListGroup } from "react-bootstrap";
-export default class CommentPost extends React.Component {
+class CommentPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,16 +14,15 @@ export default class CommentPost extends React.Component {
     const comment = await axios.get(
       `http://localhost:3008/posts/${post_id}/comments`
     );
-    this.setState({
-      Comment: comment.data,
-    });
+    this.props.comments(comment.data)
+
   };
   componentDidMount() {
     const { id } = this.props.match.params;
     this.CommentData(id);
   }
   render() {
-    const commentData = this.state.Comment;
+    const commentData = this.props.my_comment;
     let comment_Data = commentData.map((data) => {
       return (
         <>
@@ -42,3 +43,12 @@ export default class CommentPost extends React.Component {
     );
   }
 }
+const mapDispatchToProps={
+  comments
+ }
+ const mapStateToProps=(state)=>({
+  my_comment:state.comment
+})
+const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(CommentPost);
+
+export default UsersConnectedWithRedux

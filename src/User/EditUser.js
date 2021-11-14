@@ -1,31 +1,31 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {edituser} from '../actions/index'
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { Form, FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 const EditForm = (props) => {
+  const dispatch = useDispatch();
+  const update_users = useSelector((state) => state.add_data);
   const getId = props.id;
-  const [state, setState] = useState({
-    name: "",
-    username: "",
-    email: "",
-    phone: "",
-  });
-  const { name, username, email, phone } = state;
+  const { name, username, email, phone } = update_users;
   const OnChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const updatedTodo = {...update_users,[name]: value };
+    dispatch(edituser(updatedTodo))
   };
   useEffect(() => {
     EditUser();
   }, []);
   const EditUser = async () => {
     const result = await axios.get(`http://localhost:3008/users/${getId}`);
-    setState(result.data);
+    dispatch(edituser(result.data))
   };
   const OnSubmit = async () => {
-    await axios.put(`http://localhost:3008/users/${getId}`, state);
+    await axios.put(`http://localhost:3008/users/${getId}`,update_users);
   };
   return (
     <>

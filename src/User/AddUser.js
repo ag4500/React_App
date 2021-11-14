@@ -1,30 +1,30 @@
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { useSelector, useDispatch } from 'react-redux';
+import {adduser} from '../actions/index'
 import React from "react";
-import { useState } from "react";
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 const ModalForm = (props) => {
-  const [state, setState] = useState({
-    name: "",
-    username: "",
-    email: "",
-    phone: "",
-  });
-  const { name, username, email, phone } = state;
+  const dispatch = useDispatch();
+  const update_users = useSelector((state) => state.add_data);
+  const update = useSelector((state) => state);
+  const { name, username, email, phone } = update_users;
   const OnChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const updatedTodo = {...update_users,[name]: value };
+    dispatch(adduser(updatedTodo))
   };
   const UpdateUser = async (state) => {
     const response = await axios.post("http://localhost:3008/users", {
-      ...state,
+      ...update_users,
     });
-    setState(response.data);
+    dispatch(adduser(response.data))
   };
   const OnSubmit = async (e) => {
-    UpdateUser(state);
+    UpdateUser(update_users);
   };
   return (
     <>

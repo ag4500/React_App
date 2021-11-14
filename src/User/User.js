@@ -1,6 +1,8 @@
 import { Button } from "react-bootstrap";
 import React from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { users } from "../actions/index";
 import { Table } from "react-bootstrap";
 import ModalForm from "./AddUser";
 import EditForm from "./EditUser";
@@ -8,7 +10,6 @@ class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      arr: [],
       isOpen: false,
       isEdit: false,
     };
@@ -27,9 +28,7 @@ class Users extends React.Component {
   };
   onData = async () => {
     const api = await axios.get("http://localhost:3008/users");
-    this.setState({
-      arr: api.data,
-    });
+    this.props.users(api.data);
   };
   componentDidMount() {
     this.onData();
@@ -41,10 +40,12 @@ class Users extends React.Component {
     this.props.history.push(`/users/${e}/todos`);
   };
   render() {
-    let userData = this.state.arr;
+    let userData = this.props.my_user;
     return (
       <>
-        <Button className="my-2" variant="info" onClick={this.handleShow}>Add User</Button>
+        <Button className="my-2" variant="info" onClick={this.handleShow}>
+          Add User
+        </Button>
         {this.state.isOpen ? (
           <ModalForm show={this.state.isOpen} hide={this.handleHide} />
         ) : this.state.isEdit ? (
@@ -101,4 +102,16 @@ class Users extends React.Component {
     );
   }
 }
-export default Users;
+//export default Users;
+const mapDispatchToProps = {
+  users,
+};
+const mapStateToProps = (state) => ({
+  my_user: state.arr,
+});
+const UsersConnectedWithRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Users);
+
+export default UsersConnectedWithRedux;
