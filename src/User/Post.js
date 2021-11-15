@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import {posts} from '../actions/index'
 import { Button, ListGroup } from "react-bootstrap";
 class PostUser extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   postData = async (userId) => {
     const post = await axios.get(`http://localhost:3008/users/${userId}/posts`);
     this.props.posts(post.data)

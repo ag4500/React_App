@@ -1,15 +1,12 @@
-import { Button } from "react-bootstrap";
 import React from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { users, show, edit, edit_hide } from "../actions/index";
-import { Table } from "react-bootstrap";
-import ModalForm from "./AddUser";
 import EditForm from "./EditUser";
+import ModalForm from "./AddUser";
+import { users, show, edit_show as edit } from "../actions/index";
+import { Table } from "react-bootstrap";
 class Users extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   handleShow = () => {
     this.props.show(!this.props.isOpen);
   };
@@ -94,7 +91,7 @@ const mapDispatchToProps = {
   edit,
 };
 const mapStateToProps = (state) => ({
-  my_user: state.arr,
+  my_user: state.users,
   isOpen: state.isOpen,
   isEdit: state.isEdit,
 });

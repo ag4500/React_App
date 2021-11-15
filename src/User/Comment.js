@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { comments } from "../actions/index";
 import { ListGroup } from "react-bootstrap";
 class CommentPost extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   CommentData = async (post_id) => {
     const comment = await axios.get(
       `http://localhost:3008/posts/${post_id}/comments`

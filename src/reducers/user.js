@@ -1,21 +1,21 @@
 import {
   ADD_Users,
-  Posts,
-  Users,
-  Todos,
-  Edit_Users,
   Comments,
-  Show,
-  Hide,
-  Edit,
+  Edit_Users,
+  Edit_Show,
   Edit_Hide,
+  Hide,
+  Posts,
+  Show,
+  Todos,
+  Users,
 } from "../actions";
 const initialState = {
-  arr: [],
+  users: [],
   post: [],
   todo: [],
   comment: [],
-  add_data: {
+  data: {
     name: "",
     username: "",
     email: "",
@@ -29,7 +29,7 @@ export default function user_reducer(state = initialState, action) {
     case Users:
       return {
         ...state,
-        arr: action.payload,
+        users: action.payload,
       };
     case Posts:
       return {
@@ -46,16 +46,15 @@ export default function user_reducer(state = initialState, action) {
         ...state,
         comment: action.payload,
       };
-
     case ADD_Users:
       return {
         ...state,
-        add_data: action.payload,
+        data: action.payload,
       };
     case Edit_Users:
       return {
         ...state,
-        add_data: action.payload,
+        data: action.payload,
       };
     case Show:
       return {
@@ -65,9 +64,9 @@ export default function user_reducer(state = initialState, action) {
     case Hide:
       return {
         ...state,
-        isOpen:action.payload,
+        isOpen: action.payload,
       };
-    case Edit:
+    case Edit_Show:
       return {
         ...state,
         isEdit: action.payload,
@@ -75,9 +74,8 @@ export default function user_reducer(state = initialState, action) {
     case Edit_Hide:
       return {
         ...state,
-        isEdit:action.payload,
+        isEdit: action.payload,
       };
-      break;
     default:
       return state;
   }

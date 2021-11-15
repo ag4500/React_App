@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import {  useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import {edituser,edit_hide} from '../actions/index'
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { edituser, edit_hide } from "../actions/index";
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { Form, FormControl } from "react-bootstrap";
@@ -11,24 +11,24 @@ const EditForm = (props) => {
   const dispatch = useDispatch();
   const update_users = useSelector((state) => state);
   const getId = update_users.isEdit.edit_id;
-  const { name, username, email, phone } = update_users.add_data;
+  const { name, username, email, phone } = update_users.data;
   const OnChange = (e) => {
     const { name, value } = e.target;
-    const updated = {...update_users.add_data,[name]: value };
-    dispatch(edituser(updated))
+    const updated = { ...update_users.data, [name]: value };
+    dispatch(edituser(updated));
   };
   useEffect(() => {
     EditUser();
   }, []);
   const EditUser = async () => {
     const result = await axios.get(`http://localhost:3008/users/${getId}`);
-    dispatch(edituser(result.data))
+    dispatch(edituser(result.data));
   };
   const OnSubmit = async () => {
-    await axios.put(`http://localhost:3008/users/${getId}`,update_users.add_data);
+    await axios.put(`http://localhost:3008/users/${getId}`, update_users.data);
   };
   const handleEdit_Hide = () => {
-    dispatch(edit_hide(!update_users.isEdit.isEdit))
+    dispatch(edit_hide(!update_users.isEdit.isEdit));
   };
   return (
     <>

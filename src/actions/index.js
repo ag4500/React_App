@@ -6,7 +6,7 @@ export const ADD_Users = "ADD_Users";
 export const Edit_Users = "Edit_Users";
 export const Show = "Show";
 export const Hide = "Hide";
-export const Edit="Edit";
+export const Edit_Show="Edit_Show";
 export const Edit_Hide="Edit_Hide";
 export const users = (payload) => ({
   type: Users,
@@ -40,8 +40,8 @@ export const hide = (payload) => ({
   type: Hide,
   payload,
 });
-export const edit = (payload) => ({
-  type: Edit,
+export const edit_show= (payload) => ({
+  type: Edit_Show,
   payload,
 });
 export const edit_hide = (payload) => ({

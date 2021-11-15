@@ -1,33 +1,32 @@
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { useSelector, useDispatch } from 'react-redux';
-import {adduser,hide} from '../actions/index'
+import { useSelector, useDispatch } from "react-redux";
+import { adduser, hide } from "../actions/index";
 import React from "react";
 import axios from "axios";
 import { InputGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 const ModalForm = () => {
   const dispatch = useDispatch();
-  const update_users = useSelector((state) => state,
-  );
-  const { name, username, email, phone } = update_users.add_data;
+  const update_users = useSelector((state) => state);
+  const { name, username, email, phone } = update_users.data;
   const OnChange = (e) => {
     const { name, value } = e.target;
-    const add_users = {...update_users.add_data,[name]: value };
-    dispatch(adduser(add_users))
+    const add_users = { ...update_users.data, [name]: value };
+    dispatch(adduser(add_users));
   };
   const UpdateUser = async (state) => {
     const response = await axios.post("http://localhost:3008/users", {
-      ...update_users.add_data,
+      ...update_users.data,
     });
-    dispatch(adduser(response.data))
+    dispatch(adduser(response.data));
   };
-  const OnSubmit = async (e) => {
-    UpdateUser(update_users.add_data);
+  const OnSubmit = async () => {
+    UpdateUser(update_users.data);
   };
   const handleHide = () => {
-    dispatch(hide(!update_users.isOpen))
+    dispatch(hide(!update_users.isOpen));
   };
   return (
     <>

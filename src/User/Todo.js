@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import {todos} from '../actions/index';
 import { ListGroup } from "react-bootstrap";
  class TodoUser extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   TodoData = async (id) => {
     const todo = await axios.get(`http://localhost:3008/users/${id}/todos`);
     this.props.todos(todo.data)
