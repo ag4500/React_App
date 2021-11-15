@@ -44,6 +44,6 @@ const mapDispatchToProps={
  const mapStateToProps=(state)=>({
   my_todo:state.todo
 })
-const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(TodoUser);
+const TodosConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(TodoUser);
 
-export default UsersConnectedWithRedux
+export default TodosConnectedWithRedux

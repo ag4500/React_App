@@ -20,7 +20,6 @@ class PostUser extends React.Component {
     this.props.history.push(`/posts/${post_id}/comments`);
   };
   render() {
-    //const postData = this.state.Post;
     const postData = this.props.my_post;
     let post_Data = postData.map((data) => {
       return (
@@ -59,6 +58,6 @@ const mapDispatchToProps={
  const mapStateToProps=(state)=>({
   my_post:state.post
 })
-const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(PostUser);
+const PostsConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(PostUser);
 
-export default UsersConnectedWithRedux
+export default PostsConnectedWithRedux

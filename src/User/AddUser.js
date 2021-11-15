@@ -14,8 +14,8 @@ const ModalForm = () => {
   const { name, username, email, phone } = update_users.add_data;
   const OnChange = (e) => {
     const { name, value } = e.target;
-    const updatedTodo = {...update_users.add_data,[name]: value };
-    dispatch(adduser(updatedTodo))
+    const add_users = {...update_users.add_data,[name]: value };
+    dispatch(adduser(add_users))
   };
   const UpdateUser = async (state) => {
     const response = await axios.post("http://localhost:3008/users", {
