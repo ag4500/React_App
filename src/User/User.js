@@ -92,7 +92,6 @@ const mapDispatchToProps = {
   users,
   show,
   edit,
-  edit_hide,
 };
 const mapStateToProps = (state) => ({
   my_user: state.arr,
