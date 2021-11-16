@@ -22,7 +22,6 @@ export default function setUser(state = initialState, action) {
         ...state,
         toggle: action.payload,
       };
-
     default:
       return state;
   }
