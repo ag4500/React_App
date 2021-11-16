@@ -231,11 +231,18 @@
       }
     },
     {
+      "username": "Anjali185",
+      "id": 11,
       "name": "Anjali Gupta",
-      "username": "Anjali1200",
       "email": "anjalishree@gmail.com",
-      "phone": "1234568520",
-      "id": 11
+      "phone": "1234567890"
+    },
+    {
+      "name": "Gourav",
+      "username": "Gourav1200",
+      "email": "fd@123",
+      "phone": "1234567890",
+      "id": 12
     }
   ],
   "todos": [

@@ -2,38 +2,57 @@ import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { adduser, hide } from "../actions/index";
+import { setuser, showHide } from "../actions/index";
 import React from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import { InputGroup } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
-const ModalForm = () => {
+const AddEditForm = () => {
   const dispatch = useDispatch();
-  const update_users = useSelector((state) => state);
-  const { name, username, email, phone } = update_users.data;
-  const OnChange = (e) => {
+  const updateUsers = useSelector((state) => state.setUser);
+  const getId = updateUsers.toggle.handleId;
+  const { name, username, email, phone } = updateUsers.data;
+  const onChange = (e) => {
     const { name, value } = e.target;
-    const add_users = { ...update_users.data, [name]: value };
-    dispatch(adduser(add_users));
+    const addusers = { ...updateUsers.data, [name]: value };
+    dispatch(setuser(addusers));
   };
-  const UpdateUser = async (state) => {
+  const updateUser = async (state) => {
     const response = await axios.post("http://localhost:3008/users", {
-      ...update_users.data,
+      ...updateUsers.data,
     });
-    dispatch(adduser(response.data));
+    dispatch(setuser(response.data));
   };
   const OnSubmit = async () => {
-    UpdateUser(update_users.data);
+    if (getId === undefined) {
+      updateUser(updateUsers.data);
+    } else {
+      await axios.put(`http://localhost:3008/users/${getId}`, updateUsers.data);
+    }
   };
-  const handleHide = () => {
-    dispatch(hide(!update_users.isOpen));
+  const handleHideToggle = () => {
+    dispatch(
+      showHide(!updateUsers.toggle, (updateUsers.data = updateUsers.record))
+    );
+  };
+  useEffect(() => {
+    editUser();
+  }, []);
+  const editUser = async () => {
+    const result = await axios.get(`http://localhost:3008/users/${getId}`);
+    dispatch(setuser(result.data));
   };
   return (
     <>
       <div className="container p-3 text-center bg-light">
-        <Modal show={update_users.isOpen} onHide={handleHide}>
+        <Modal show={updateUsers.toggle} onHide={handleHideToggle}>
           <Modal.Header closeButton>
-            <Modal.Title>Add User</Modal.Title>
+            {getId === undefined ? (
+              <Modal.Title>Add User</Modal.Title>
+            ) : (
+              <Modal.Title>Edit User</Modal.Title>
+            )}
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={OnSubmit}>
@@ -43,7 +62,7 @@ const ModalForm = () => {
                   type="text"
                   name="name"
                   value={name}
-                  onChange={(event) => OnChange(event)}
+                  onChange={(event) => onChange(event)}
                 />
               </InputGroup>
               <InputGroup className="p-2 -3 ">
@@ -52,7 +71,7 @@ const ModalForm = () => {
                   type="text"
                   name="username"
                   value={username}
-                  onChange={(event) => OnChange(event)}
+                  onChange={(event) => onChange(event)}
                 />
               </InputGroup>
               <InputGroup className="p-2 -3">
@@ -61,7 +80,7 @@ const ModalForm = () => {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={(event) => OnChange(event)}
+                  onChange={(event) => onChange(event)}
                 />
               </InputGroup>
               <InputGroup className="p-2 -3 ">
@@ -70,13 +89,19 @@ const ModalForm = () => {
                   type="text"
                   name="phone"
                   value={phone}
-                  onChange={(event) => OnChange(event)}
+                  onChange={(event) => onChange(event)}
                 />
               </InputGroup>
               <Modal.Footer>
-                <Button variant="primary" type="submit">
-                  Add User
-                </Button>
+                {getId === undefined ? (
+                  <Button variant="success" type="submit">
+                    Add User
+                  </Button>
+                ) : (
+                  <Button variant="warning" type="submit">
+                    Edit User
+                  </Button>
+                )}
               </Modal.Footer>
             </Form>
           </Modal.Body>
@@ -85,4 +110,4 @@ const ModalForm = () => {
     </>
   );
 };
-export default ModalForm;
+export default AddEditForm;

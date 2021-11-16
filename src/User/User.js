@@ -2,16 +2,16 @@ import React from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import EditForm from "./EditUser";
-import ModalForm from "./AddUser";
-import { users, show, edit_show as edit } from "../actions/index";
+import AddEditForm from "./AddUser";
+import { users, showHide} from "../actions/index";
 import { Table } from "react-bootstrap";
 class Users extends React.Component {
-  handleShow = () => {
-    this.props.show(!this.props.isOpen);
-  };
-  handleEdit = (id) => {
-    this.props.edit({ isEdit: true, edit_id: id });
+  handleShowToggle = (id) => {
+    if (id === undefined) {
+      this.props.showHide(!this.props.toggle);
+    } else {
+      this.props.showHide({ toggle: true, handleId: id });
+    }
   };
   onData = async () => {
     const api = await axios.get("http://localhost:3008/users");
@@ -20,80 +20,77 @@ class Users extends React.Component {
   componentDidMount() {
     this.onData();
   }
-  Post_Data = (e) => {
+  postData = (e) => {
     this.props.history.push(`/users/${e}/posts`);
   };
-  ToDo_Data = (e) => {
+  todoData = (e) => {
     this.props.history.push(`/users/${e}/todos`);
   };
   render() {
-    let userData = this.props.my_user;
+    const userData = this.props.user.users;
     return (
       <>
-        <Button className="my-2" variant="info" onClick={this.handleShow}>
+        <Button
+          className="my-2"
+          variant="info"
+          onClick={() => this.handleShowToggle()}
+        >
           Add User
         </Button>
-        {this.props.isOpen ? (
-          <ModalForm />
-        ) : this.props.isEdit ? (
-          <EditForm />
-        ) : (
-          <Table striped bordered hover size="lg">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>UserName</th>
-                <th>Actions</th>
+        {this.props.handleShow.toggle ? <AddEditForm/> : undefined}
+        <Table striped bordered hover size="lg">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>UserName</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userData.map((data) => (
+              <tr key={data.id}>
+                <td>{data.id}</td>
+                <td>{data.name}</td>
+                <td>{data.email}</td>
+                <td>{data.username}</td>
+                <Button
+                  variant="outline-info"
+                  className="mx-1"
+                  onClick={() => this.postData(data.id)}
+                >
+                  ShowPost
+                </Button>
+                <Button
+                  variant="outline-info"
+                  className="mx-1"
+                  onClick={() => this.todoData(data.id)}
+                >
+                  ShowToDo
+                </Button>
+                <Button
+                  variant="outline-warning"
+                  className="mx-1"
+                  onClick={() => this.handleShowToggle(data.id)}
+                >
+                  Edit User
+                </Button>
               </tr>
-            </thead>
-            <tbody>
-              {userData.map((data) => (
-                <tr key={data.id}>
-                  <td>{data.id}</td>
-                  <td>{data.name}</td>
-                  <td>{data.email}</td>
-                  <td>{data.username}</td>
-                  <Button
-                    variant="outline-info"
-                    className="mx-1"
-                    onClick={() => this.Post_Data(data.id)}
-                  >
-                    ShowPost
-                  </Button>
-                  <Button
-                    variant="outline-info"
-                    className="mx-1"
-                    onClick={() => this.ToDo_Data(data.id)}
-                  >
-                    ShowToDo
-                  </Button>
-                  <Button
-                    variant="outline-warning"
-                    className="mx-1"
-                    onClick={() => this.handleEdit(data.id)}
-                  >
-                    Edit User
-                  </Button>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+            ))}
+          </tbody>
+        </Table>
       </>
     );
   }
 }
 const mapDispatchToProps = {
   users,
-  show,
-  edit,
+  showHide,
 };
 const mapStateToProps = (state) => ({
-  my_user: state.users,
-  isOpen: state.isOpen,
-  isEdit: state.isEdit,
+  user: state.user,
+  handleShow: state.setUser,
 });
 const UsersConnectedWithRedux = connect(
   mapStateToProps,
