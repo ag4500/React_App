@@ -41,5 +41,4 @@ const commentsConnectedWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CommentPost);
-
 export default commentsConnectedWithRedux;

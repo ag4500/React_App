@@ -96,5 +96,4 @@ const usersConnectedWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Users);
-
 export default usersConnectedWithRedux;

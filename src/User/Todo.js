@@ -42,5 +42,4 @@ const mapDispatchToProps={
   mytodo:state.todo
 })
 const todosConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(TodoUser);
-
 export default todosConnectedWithRedux

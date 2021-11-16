@@ -57,5 +57,4 @@ const postsConnectedWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PostUser);
-
 export default postsConnectedWithRedux;
