@@ -18,7 +18,6 @@ class PostUser extends React.Component {
   };
   render() {
     const postData = this.props.myPost.post;
-
     return (
       <>
         <div className="container my-3">
