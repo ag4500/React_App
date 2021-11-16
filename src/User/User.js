@@ -92,9 +92,9 @@ const mapStateToProps = (state) => ({
   user: state.user,
   handleShow: state.setUser,
 });
-const UsersConnectedWithRedux = connect(
+const usersConnectedWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Users);
 
-export default UsersConnectedWithRedux;
+export default usersConnectedWithRedux;

@@ -37,9 +37,9 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   myComment: state.comment,
 });
-const CommentsConnectedWithRedux = connect(
+const commentsConnectedWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CommentPost);
 
-export default CommentsConnectedWithRedux;
+export default commentsConnectedWithRedux;
