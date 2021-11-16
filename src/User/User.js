@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
+import AddEditForm from "./AddUser";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import AddEditForm from "./AddUser";
 import { users, showHide} from "../actions/index";
 import { Table } from "react-bootstrap";
 class Users extends React.Component {
