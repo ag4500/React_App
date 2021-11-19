@@ -1,17 +1,19 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { posts } from "../actions/index";
+import { posts, snakebar } from "../actions/index";
+import { postData } from "../thunks/posts";
 import { Button, ListGroup } from "react-bootstrap";
+import Snackbar from "@material-ui/core/Snackbar";
+import { IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 class PostUser extends React.Component {
-  postData = async (userId) => {
-    const post = await axios.get(`http://localhost:3008/users/${userId}/posts`);
-    this.props.posts(post.data);
-  };
   componentDidMount() {
     const { id } = this.props.match.params;
-    this.postData(id);
+    this.props.postData(id);
   }
+  handleClose = () => {
+    this.props.snakebar({ toggle: false });
+  };
   commentData = () => {
     const postId = this.props.match.params.id;
     this.props.history.push(`/posts/${postId}/comments`);
@@ -42,12 +44,32 @@ class PostUser extends React.Component {
             </ul>
           ))}
         </div>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "bottom" }}
+          open={this.props.myPost.snakeShowHide.toggle}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          message={<span>"{this.props.myPost.snakeShowHide.err}"</span>}
+          action={[
+            <IconButton
+              key="close"
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={this.handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>,
+          ]}
+        />
       </>
     );
   }
 }
 const mapDispatchToProps = {
   posts,
+  postData,
+  snakebar,
 };
 const mapStateToProps = (state) => ({
   myPost: state.post,

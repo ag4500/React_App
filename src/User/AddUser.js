@@ -1,16 +1,19 @@
 import React from "react";
-import axios from "axios";
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { setuser, showHide } from "../actions/index";
+import { setuser, showHide, snakebar } from "../actions/index";
+import { addData, editData, setData } from "../thunks/adduser";
 import { useEffect } from "react";
-import { InputGroup } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
-const AddEditForm = () => {
+import { FormControl, InputGroup } from "react-bootstrap";
+import Snackbar from "@material-ui/core/Snackbar";
+import { IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+const AddEditForm = (props) => {
   const dispatch = useDispatch();
   const updateUsers = useSelector((state) => state.setUser);
+  console.log(updateUsers);
   const getId = updateUsers.toggle.handleId;
   const { name, username, email, phone } = updateUsers.data;
   const onChange = (e) => {
@@ -18,17 +21,14 @@ const AddEditForm = () => {
     const addusers = { ...updateUsers.data, [name]: value };
     dispatch(setuser(addusers));
   };
-  const updateUser = async (state) => {
-    const response = await axios.post("http://localhost:3008/users", {
-      ...updateUsers.data,
-    });
-    dispatch(setuser(response.data));
+  const handleClose = () => {
+    dispatch(snakebar({ toggle: false }));
   };
   const OnSubmit = async () => {
     if (getId === undefined) {
-      updateUser(updateUsers.data);
+      dispatch(addData(updateUsers.data));
     } else {
-      await axios.put(`http://localhost:3008/users/${getId}`, updateUsers.data);
+      dispatch(editData(getId, updateUsers.data));
     }
   };
   const handleHideToggle = () => {
@@ -37,12 +37,8 @@ const AddEditForm = () => {
     );
   };
   useEffect(() => {
-    editUser();
+    dispatch(setData(getId));
   }, []);
-  const editUser = async () => {
-    const result = await axios.get(`http://localhost:3008/users/${getId}`);
-    dispatch(setuser(result.data));
-  };
   return (
     <>
       <div className="container p-3 text-center bg-light">
@@ -107,6 +103,24 @@ const AddEditForm = () => {
           </Modal.Body>
         </Modal>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "bottom" }}
+        open={updateUsers.snakeShowHide.toggle}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={<span>"{updateUsers.snakeShowHide.err}"</span>}
+        action={[
+          <IconButton
+            key="close"
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>,
+        ]}
+      />
     </>
   );
 };

@@ -1,10 +1,13 @@
 import React from "react";
-import axios from "axios";
 import AddEditForm from "./AddUser";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { users, showHide} from "../actions/index";
+import { users, showHide, snakebar } from "../actions/index";
 import { Table } from "react-bootstrap";
+import Snackbar from "@material-ui/core/Snackbar";
+import { IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import { userData } from "../thunks/users";
 class Users extends React.Component {
   handleShowToggle = (id) => {
     if (id === undefined) {
@@ -13,12 +16,11 @@ class Users extends React.Component {
       this.props.showHide({ toggle: true, handleId: id });
     }
   };
-  onData = async () => {
-    const api = await axios.get("http://localhost:3008/users");
-    this.props.users(api.data);
+  handleClose = () => {
+    this.props.snakebar({ toggle: false });
   };
   componentDidMount() {
-    this.onData();
+    this.props.userData();
   }
   postData = (e) => {
     this.props.history.push(`/users/${e}/posts`);
@@ -37,7 +39,7 @@ class Users extends React.Component {
         >
           Add User
         </Button>
-        {this.props.handleShow.toggle ? <AddEditForm/> : undefined}
+        {this.props.handleShow.toggle ? <AddEditForm /> : undefined}
         <Table striped bordered hover size="lg">
           <thead>
             <tr>
@@ -80,6 +82,24 @@ class Users extends React.Component {
             ))}
           </tbody>
         </Table>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "bottom" }}
+          open={this.props.user.snakeShowHide.toggle}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          message={<span>"{this.props.user.snakeShowHide.err}"</span>}
+          action={[
+            <IconButton
+              key="close"
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={this.handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>,
+          ]}
+        />
       </>
     );
   }
@@ -87,6 +107,8 @@ class Users extends React.Component {
 const mapDispatchToProps = {
   users,
   showHide,
+  userData,
+  snakebar,
 };
 const mapStateToProps = (state) => ({
   user: state.user,

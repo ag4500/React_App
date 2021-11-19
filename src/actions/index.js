@@ -4,7 +4,9 @@ export const Todos = "Todos";
 export const Comments = "Comments";
 export const SetUsers = "SetUsers";
 export const ShowHide = "ShowHide";
-export const users = (payload) => ({
+export const SnakeBar="SnakeBar";
+export const users = (payload) => (
+  {
   type: Users,
   payload,
 });
@@ -28,3 +30,7 @@ export const showHide = (payload) => ({
   type: ShowHide,
   payload,
 });
+export const snakebar=(payload)=>({
+  type:SnakeBar,
+  payload
+})
