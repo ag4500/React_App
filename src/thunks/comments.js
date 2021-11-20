@@ -8,7 +8,7 @@ export const commentData = (postid) => async (dispatch) => {
     dispatch(comments(comment.data));
   } catch (error) {
     dispatch(
-      snakebar({ toggle: true, err: " Request failed with status code 404" })
+      snakebar({ toggle: true, err: " Request failed with status code 404 on Comment" })
     );
   }
 };

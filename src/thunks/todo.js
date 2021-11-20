@@ -6,7 +6,7 @@ export const todoData = (userId) => async (dispatch) => {
     dispatch(todos(todo.data));
   } catch (error) {
     dispatch(
-      snakebar({ toggle: true, err: " Request failed with status code 404" })
+      snakebar({ toggle: true, err: " Request failed with status code 404 on Todo" })
     );
   }
 };

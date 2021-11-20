@@ -83,11 +83,11 @@ class Users extends React.Component {
           </tbody>
         </Table>
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "bottom" }}
+          anchorOrigin={{ vertical: "center", horizontal: "center" }}
           open={this.props.user.snakeShowHide.toggle}
           autoHideDuration={3000}
           onClose={this.handleClose}
-          message={<span>"{this.props.user.snakeShowHide.err}"</span>}
+          message={<span>{this.props.user.snakeShowHide.err}</span>}
           action={[
             <IconButton
               key="close"

@@ -6,7 +6,7 @@ export const userData = () => async (dispatch) => {
     dispatch(users(api.data));
   } catch (error) {
     dispatch(
-      snakebar({ toggle: true, err: " Request failed with status code 404" })
+      snakebar({ toggle: true, err: "Request failed with status code 404 on Show User"})
     );
   }
 };

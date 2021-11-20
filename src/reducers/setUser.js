@@ -1,4 +1,4 @@
-import { SetUsers, ShowHide, SnakeBar } from "../actions";
+import { SetUsers, ShowHide } from "../actions";
 const initialState = {
   data: {
     name: "",
@@ -7,7 +7,6 @@ const initialState = {
     phone: "",
   },
   record: {},
-  snakeShowHide: { toggle: false, err: "" },
   toggle: false,
 };
 export default function setUser(state = initialState, action) {
@@ -22,11 +21,6 @@ export default function setUser(state = initialState, action) {
       return {
         ...state,
         toggle: action.payload,
-      };
-    case SnakeBar:
-      return {
-        ...state,
-        snakeShowHide: action.payload,
       };
     default:
       return state;

@@ -3,17 +3,13 @@ import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { setuser, showHide, snakebar } from "../actions/index";
+import { setuser, showHide } from "../actions/index";
 import { addData, editData, setData } from "../thunks/adduser";
 import { useEffect } from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
-import Snackbar from "@material-ui/core/Snackbar";
-import { IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-const AddEditForm = (props) => {
+const AddEditForm = () => {
   const dispatch = useDispatch();
   const updateUsers = useSelector((state) => state.setUser);
-  console.log(updateUsers);
   const getId = updateUsers.toggle.handleId;
   const { name, username, email, phone } = updateUsers.data;
   const onChange = (e) => {
@@ -21,14 +17,14 @@ const AddEditForm = (props) => {
     const addusers = { ...updateUsers.data, [name]: value };
     dispatch(setuser(addusers));
   };
-  const handleClose = () => {
-    dispatch(snakebar({ toggle: false }));
-  };
-  const OnSubmit = async () => {
+  const OnSubmit = async (e) => {
+    e.preventDefault();
     if (getId === undefined) {
       dispatch(addData(updateUsers.data));
+      dispatch(showHide(!updateUsers.toggle));
     } else {
       dispatch(editData(getId, updateUsers.data));
+      dispatch(showHide(!updateUsers.toggle));
     }
   };
   const handleHideToggle = () => {
@@ -38,7 +34,7 @@ const AddEditForm = (props) => {
   };
   useEffect(() => {
     dispatch(setData(getId));
-  }, []);
+  }, [dispatch, getId]);
   return (
     <>
       <div className="container p-3 text-center bg-light">
@@ -103,24 +99,6 @@ const AddEditForm = (props) => {
           </Modal.Body>
         </Modal>
       </div>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "bottom" }}
-        open={updateUsers.snakeShowHide.toggle}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message={<span>"{updateUsers.snakeShowHide.err}"</span>}
-        action={[
-          <IconButton
-            key="close"
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleClose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>,
-        ]}
-      />
     </>
   );
 };

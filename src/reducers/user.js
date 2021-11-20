@@ -3,7 +3,8 @@ const initialState = {
   users: [],
   snakeShowHide:{toggle:false,err:""},
 };
-export default function user(state = initialState, action) {
+export default function user(state = initialState, action) 
+{
   switch (action.type) {
     case Users:
       return {
@@ -14,7 +15,6 @@ export default function user(state = initialState, action) {
       return{
         ...state,
         snakeShowHide:action.payload
-        
       }
     default:
       return state;

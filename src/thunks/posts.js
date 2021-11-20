@@ -6,7 +6,7 @@ export const postData = (userId) => async (dispatch) => {
     dispatch(posts(post.data));
   } catch (error) {
     dispatch(
-      snakebar({ toggle: true, err: " Request failed with status code 404" })
+      snakebar({ toggle: true, err: " Request failed with status code 404 on Post" })
     );
   }
 };
